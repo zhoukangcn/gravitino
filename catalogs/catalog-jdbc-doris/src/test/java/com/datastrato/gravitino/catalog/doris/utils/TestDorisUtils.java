@@ -13,17 +13,17 @@ import org.junit.jupiter.api.Test;
 public class TestDorisUtils {
   @Test
   public void generatePropertiesSql() {
-    // Test When properties is null
+    // Test when properties is null
     Map<String, String> properties = null;
     String result = DorisUtils.generatePropertiesSql(properties);
     Assertions.assertEquals("", result);
 
-    // Test When properties is empty
+    // Test when properties is empty
     properties = Collections.emptyMap();
     result = DorisUtils.generatePropertiesSql(properties);
     Assertions.assertEquals("", result);
 
-    // Test When properties has single entry
+    // Test when properties has single entry
     properties = Collections.singletonMap("key", "value");
     result = DorisUtils.generatePropertiesSql(properties);
     Assertions.assertEquals(" PROPERTIES (\n\"key\"=\"value\"\n)", result);
@@ -41,19 +41,19 @@ public class TestDorisUtils {
 
   @Test
   public void testExtractTablePropertiesFromSql() {
-    // Test When properties is null
+    // Test when properties is null
     String createTableSql =
         "CREATE TABLE `testTable` (\n`testColumn` STRING NOT NULL COMMENT 'test comment'\n) ENGINE=OLAP\nCOMMENT \"test comment\"";
     Map<String, String> result = DorisUtils.extractPropertiesFromSql(createTableSql);
     Assertions.assertTrue(result.isEmpty());
 
-    // Test When properties exist
+    // Test when properties exist
     createTableSql =
         "CREATE TABLE `testTable` (\n`testColumn` STRING NOT NULL COMMENT 'test comment'\n) ENGINE=OLAP\nCOMMENT \"test comment\"\nPROPERTIES (\n\"test_property\"=\"test_value\"\n)";
     result = DorisUtils.extractPropertiesFromSql(createTableSql);
     Assertions.assertEquals("test_value", result.get("test_property"));
 
-    // Test When multiple properties exist
+    // Test when multiple properties exist
     createTableSql =
         "CREATE TABLE `testTable` (\n`testColumn` STRING NOT NULL COMMENT 'test comment'\n) ENGINE=OLAP\nCOMMENT \"test comment\"\nPROPERTIES (\n\"test_property1\"=\"test_value1\",\n\"test_property2\"=\"test_value2\"\n)";
     result = DorisUtils.extractPropertiesFromSql(createTableSql);
