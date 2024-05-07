@@ -10,6 +10,7 @@ import com.datastrato.gravitino.catalog.doris.converter.DorisTypeConverter;
 import com.datastrato.gravitino.catalog.doris.operation.DorisDatabaseOperations;
 import com.datastrato.gravitino.catalog.doris.operation.DorisTableOperations;
 import com.datastrato.gravitino.catalog.jdbc.JdbcCatalog;
+import com.datastrato.gravitino.catalog.jdbc.JdbcTablePropertiesMetadata;
 import com.datastrato.gravitino.catalog.jdbc.MySQLProtocolCompatibleCatalogOperations;
 import com.datastrato.gravitino.catalog.jdbc.converter.JdbcColumnDefaultValueConverter;
 import com.datastrato.gravitino.catalog.jdbc.converter.JdbcExceptionConverter;
@@ -62,5 +63,10 @@ public class DorisCatalog extends JdbcCatalog {
   @Override
   protected JdbcColumnDefaultValueConverter createJdbcColumnDefaultValueConverter() {
     return new DorisColumnDefaultValueConverter();
+  }
+
+  @Override
+  protected JdbcTablePropertiesMetadata createJdbcTablePropertiesMetadata() {
+    return new DorisTablePropertiesMetadata();
   }
 }
