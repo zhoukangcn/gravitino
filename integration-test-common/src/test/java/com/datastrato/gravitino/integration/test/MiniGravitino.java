@@ -24,8 +24,11 @@ import com.datastrato.gravitino.server.GravitinoServer;
 import com.datastrato.gravitino.server.ServerConfig;
 import com.datastrato.gravitino.server.web.JettyServerConfig;
 import com.google.common.collect.ImmutableMap;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -109,7 +112,8 @@ public class MiniGravitino {
         JettyServerConfig.fromConfig(serverConfig, GravitinoServer.WEBSERVER_CONF_PREFIX);
     this.host = jettyServerConfig.getHost();
     this.port = jettyServerConfig.getHttpPort();
-    String URI = String.format("http://%s:%d", host, port);
+    String URI = String.format("http://%s:%d", "127.0.0.1", port);
+    LOG.info("zhoukang1 MiniGravitino URI: {}", URI);
     if (AuthenticatorType.OAUTH
         .name()
         .toLowerCase()
@@ -246,6 +250,34 @@ public class MiniGravitino {
     LOG.info("checkIfServerIsRunning() URI: {}", URI);
 
     VersionResponse response = null;
+    LOG.info("zhoukang1: " + restClient.toString());
+
+    try {
+      // add a bash curl command to check if the server is running
+      String curlCMD = String.format("curl http://%s:%d/api/version", host, port);
+      Process process = Runtime.getRuntime().exec(new String[] {"/bin/bash", "-c", curlCMD});
+      BufferedReader stdInput =
+          new BufferedReader(
+              new InputStreamReader(process.getInputStream(), Charset.defaultCharset()));
+      BufferedReader stdError =
+          new BufferedReader(
+              new InputStreamReader(process.getErrorStream(), Charset.defaultCharset()));
+
+      // Read command outputs
+      String output;
+      LOG.info("Here is the standard output of the command:");
+      while ((output = stdInput.readLine()) != null) {
+        LOG.info(output);
+      }
+
+      LOG.info("Here is the standard error of the command (if any):");
+      while ((output = stdError.readLine()) != null) {
+        LOG.info(output);
+      }
+    } catch (IOException e) {
+      LOG.warn("zhoukang1: {}", e.getMessage());
+    }
+
     try {
       response =
           restClient.get(
@@ -258,6 +290,7 @@ public class MiniGravitino {
       return false;
     }
     if (response != null && response.getCode() == 0) {
+      LOG.info("checkIfServerIsRunning() success, GravitinoServer is running");
       return true;
     } else {
       LOG.warn("checkIfServerIsRunning() fails, GravitinoServer is not running");

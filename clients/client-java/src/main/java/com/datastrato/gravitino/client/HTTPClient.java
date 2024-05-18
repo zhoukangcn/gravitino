@@ -793,4 +793,19 @@ public class HTTPClient implements RESTClient {
   private StringEntity toFormEncoding(Map<?, ?> formData) {
     return new StringEntity(RESTUtils.encodeFormData(formData));
   }
+
+  @Override
+  public String toString() {
+    return "HTTPClient{"
+        + "uri='"
+        + uri
+        + '\''
+        + ", httpClient="
+        + httpClient
+        + ", mapper="
+        + mapper
+        + ", authDataProvider="
+        + authDataProvider
+        + '}';
+  }
 }
