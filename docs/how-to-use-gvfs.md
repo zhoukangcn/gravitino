@@ -563,7 +563,7 @@ from gravitino import gvfs
 
 options = {"auth_type": "simple"}
 fs = gvfs.GravitinoVirtualFileSystem(server_uri="http://localhost:8090", metalake_name="test_metalake", options=options)
-print(fs.ls("gvfs://fileset/fileset_catlaog/tmp/test_fileset"))
+print(fs.ls("gvfs://fileset/fileset_catalog/tmp/test_fileset"))
 ```
 
 ##### Using `OAuth` authentication
@@ -584,5 +584,5 @@ options = {
     GVFSConfig.OAUTH2_PATH: "token/test",
 }
 fs = gvfs.GravitinoVirtualFileSystem(server_uri="http://localhost:8090", metalake_name="test_metalake", options=options)
-print(fs.ls("gvfs://fileset/fileset_catlaog/tmp/test_fileset"))
+print(fs.ls("gvfs://fileset/fileset_catalog/tmp/test_fileset"))
 ```
