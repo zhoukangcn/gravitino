@@ -45,6 +45,7 @@ dependencies {
   testImplementation(libs.guava)
   testImplementation(libs.httpclient5)
   testImplementation(libs.testcontainers)
+  testImplementation(libs.testcontainers.docker.compose)
   testImplementation(libs.testcontainers.mysql)
   testImplementation(libs.testcontainers.postgresql)
   testImplementation(libs.ranger.intg) {

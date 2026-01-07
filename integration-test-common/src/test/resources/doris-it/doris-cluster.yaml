@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  doris-fe:
+    image: apache/doris:2.1.0-fe-x86_64
+    container_name: doris-fe
+    ports:
+      - "8030:8030"
+      - "9030:9030"
+    environment:
+      - FE_SERVERS=fe1:172.20.80.2:9010
+      - FE_ID=1
+    networks:
+      doris-net:
+        ipv4_address: 172.20.80.2
+
+  doris-be-1:
+    image: apache/doris:2.1.0-be-x86_64
+    depends_on:
+      - doris-fe
+    environment:
+      - FE_SERVERS=fe1:172.20.80.2:9010
+      - BE_ADDR=172.20.80.3:9050
+    networks:
+      doris-net:
+        ipv4_address: 172.20.80.3
+
+  doris-be-2:
+    image: apache/doris:2.1.0-be-x86_64
+    depends_on:
+      - doris-fe
+    environment:
+      - FE_SERVERS=fe1:172.20.80.2:9010
+      - BE_ADDR=172.20.80.4:9050
+    networks:
+      doris-net:
+        ipv4_address: 172.20.80.4
+
+  doris-be-3:
+    image: apache/doris:2.1.0-be-x86_64
+    depends_on:
+      - doris-fe
+    environment:
+      - FE_SERVERS=fe1:172.20.80.2:9010
+      - BE_ADDR=172.20.80.5:9050
+    networks:
+      doris-net:
+        ipv4_address: 172.20.80.5
+
+networks:
+  doris-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.80.0/24
