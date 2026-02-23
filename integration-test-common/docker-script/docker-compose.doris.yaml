@@ -1,0 +1,73 @@
+version: '3'
+services:
+  fe:
+    image: apache/doris:2.1.0
+    container_name: doris-ci-fe
+    networks:
+      - doris-net
+    environment:
+      - FE_SERVERS=fe1:172.20.0.10:9010
+      - FE_ID=1
+    ports:
+      - "8030:8030"
+      - "9030:9030"
+    volumes:
+      - ./init/doris/fe:/tmp/fe
+    entrypoint: /bin/bash /tmp/fe/init.sh
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8030/api/bootstrap"]
+      interval: 10s
+      timeout: 60s
+      retries: 10
+
+  be:
+    image: apache/doris:2.1.0
+    container_name: doris-ci-be
+    networks:
+      - doris-net
+    environment:
+      - FE_SERVERS=fe1:172.20.0.10:9010
+      - BE_ADDR=172.20.0.11:9050
+    ports:
+      - "8040:8040"
+    volumes:
+      - ./init/doris/be:/tmp/be
+    entrypoint: /bin/bash /tmp/be/init.sh
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://fe:8030/api/health?type=be"]
+      interval: 10s
+      timeout: 60s
+      retries: 10
+    depends_on:
+      fe:
+        condition: service_healthy
+
+  broker:
+    image: apache/doris:2.1.0
+    container_name: doris-ci-broker
+    networks:
+      - doris-net
+    environment:
+      - FE_SERVERS=fe1:172.20.0.10:9010
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./init/doris/broker:/tmp/broker
+    entrypoint: /bin/bash /tmp/broker/init.sh
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://fe:8030/api/health?type=broker"]
+      interval: 10s
+      timeout: 60s
+      retries: 10
+    depends_on:
+      fe:
+        condition: service_healthy
+
+networks:
+  doris-net:
+    driver: bridge
+    name: doris-net
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+          gateway: 172.20.0.1
