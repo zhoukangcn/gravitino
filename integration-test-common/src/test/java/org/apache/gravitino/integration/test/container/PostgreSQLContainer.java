@@ -73,7 +73,7 @@ public class PostgreSQLContainer extends BaseContainer {
   }
 
   @Override
-  protected boolean checkContainerStatus(int retryLimit) {
+  public boolean checkContainerStatus(int retryLimit) {
     int nRetry = 0;
     boolean isPostgreSQLContainerReady = false;
     int sleepTimeMillis = 20_00;

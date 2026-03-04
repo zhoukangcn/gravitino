@@ -49,7 +49,7 @@ import org.testcontainers.containers.wait.strategy.Wait;
  * The BaseContainer is the base for all containers. It's contains the common methods and settings
  * for all containers. You can extend this class to create your own container to integration test.
  */
-public abstract class BaseContainer implements AutoCloseable {
+public abstract class BaseContainer implements ContainerLifecycle {
   public static final Logger LOG = LoggerFactory.getLogger(BaseContainer.class);
   // Host name of the container
   protected final String hostName;
@@ -155,7 +155,7 @@ public abstract class BaseContainer implements AutoCloseable {
     container.start();
   }
 
-  protected abstract boolean checkContainerStatus(int retryLimit);
+  public abstract boolean checkContainerStatus(int retryLimit);
 
   // Execute the command in the container.
   public Container.ExecResult executeInContainer(String... commandAndArgs) {

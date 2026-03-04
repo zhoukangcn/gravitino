@@ -80,7 +80,7 @@ public class TrinoContainer extends BaseContainer {
   }
 
   @Override
-  protected boolean checkContainerStatus(int retryLimit) {
+  public boolean checkContainerStatus(int retryLimit) {
     await()
         .atMost(30, TimeUnit.SECONDS)
         .pollInterval(30 / retryLimit, TimeUnit.SECONDS)

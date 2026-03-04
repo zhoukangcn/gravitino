@@ -86,7 +86,7 @@ public class KafkaContainer extends BaseContainer {
   }
 
   @Override
-  protected boolean checkContainerStatus(int retryLimit) {
+  public boolean checkContainerStatus(int retryLimit) {
     String address = getContainerIpAddress();
     Preconditions.checkArgument(
         Strings.isNotBlank(address), "Kafka container IP address is not available.");

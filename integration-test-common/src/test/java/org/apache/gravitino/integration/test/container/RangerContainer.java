@@ -89,7 +89,7 @@ public class RangerContainer extends BaseContainer {
   }
 
   @Override
-  protected boolean checkContainerStatus(int retryLimit) {
+  public boolean checkContainerStatus(int retryLimit) {
     int nRetry = 0;
     boolean isRangerContainerReady = false;
     int sleepTimeMillis = 3_000;

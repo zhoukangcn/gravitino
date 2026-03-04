@@ -123,7 +123,7 @@ public class HiveContainer extends BaseContainer {
   }
 
   @Override
-  protected boolean checkContainerStatus(int retryLimit) {
+  public boolean checkContainerStatus(int retryLimit) {
     await()
         .atMost(150, TimeUnit.SECONDS)
         .pollInterval(150 / retryLimit, TimeUnit.SECONDS)

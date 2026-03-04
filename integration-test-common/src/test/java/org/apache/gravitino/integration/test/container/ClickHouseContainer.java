@@ -79,7 +79,7 @@ public class ClickHouseContainer extends BaseContainer {
   }
 
   @Override
-  protected boolean checkContainerStatus(int retryLimit) {
+  public boolean checkContainerStatus(int retryLimit) {
     Awaitility.await()
         .atMost(java.time.Duration.ofMinutes(2))
         .pollInterval(Duration.ofSeconds(5))

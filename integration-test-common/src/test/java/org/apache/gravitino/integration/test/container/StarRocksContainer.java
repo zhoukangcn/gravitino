@@ -80,7 +80,7 @@ public class StarRocksContainer extends BaseContainer {
   }
 
   @Override
-  protected boolean checkContainerStatus(int retryLimit) {
+  public boolean checkContainerStatus(int retryLimit) {
     String starRocksJdbcUrl = format("jdbc:mysql://%s:%d/", getContainerIpAddress(), FE_MYSQL_PORT);
     LOG.info("StarRocks url is " + starRocksJdbcUrl);
 

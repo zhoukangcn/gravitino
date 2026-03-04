@@ -46,7 +46,7 @@ public class GravitinoLocalStackContainer extends BaseContainer {
   }
 
   @Override
-  protected boolean checkContainerStatus(int retryLimit) {
+  public boolean checkContainerStatus(int retryLimit) {
     return true;
   }
 

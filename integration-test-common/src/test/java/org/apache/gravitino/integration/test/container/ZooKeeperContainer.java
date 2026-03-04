@@ -56,7 +56,7 @@ public class ZooKeeperContainer extends BaseContainer {
   }
 
   @Override
-  protected boolean checkContainerStatus(int retryLimit) {
+  public boolean checkContainerStatus(int retryLimit) {
     // Testcontainers wait strategy already ensures the port is ready.
     LOG.info("ZooKeeper container started");
     return true;

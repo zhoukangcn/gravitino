@@ -75,7 +75,7 @@ public class MySQLContainer extends BaseContainer {
   }
 
   @Override
-  protected boolean checkContainerStatus(int retryLimit) {
+  public boolean checkContainerStatus(int retryLimit) {
     await()
         .atMost(10, TimeUnit.SECONDS)
         .pollInterval(10 / retryLimit, TimeUnit.SECONDS)

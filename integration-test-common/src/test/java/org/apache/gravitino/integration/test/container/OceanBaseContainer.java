@@ -78,7 +78,7 @@ public class OceanBaseContainer extends BaseContainer {
   }
 
   @Override
-  protected boolean checkContainerStatus(int retryLimit) {
+  public boolean checkContainerStatus(int retryLimit) {
     String oceanBaseJdbcUrl = format("jdbc:mysql://%s:%d", "localhost", getMappedPort());
     LOG.info("OceanBase url is {}", oceanBaseJdbcUrl);
 
