@@ -117,12 +117,6 @@ public class MetalakeOperations {
           "Only service admins can create metalakes, current user can't create the metalake,"
               + "  you should configure it in the server configuration first")
   public Response createMetalake(MetalakeCreateRequest request) {
-    if (request == null) {
-      LOG.warn("Received create metalake request with null request body");
-      return ExceptionHandlers.handleMetalakeException(
-          OperationType.CREATE, "", new IllegalArgumentException("Request body cannot be null"));
-    }
-
     LOG.info("Received create metalake request for {}", request.getName());
     try {
       return Utils.doAs(

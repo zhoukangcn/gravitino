@@ -122,15 +122,11 @@ public class SchemaOperations {
           String metalake,
       @PathParam("catalog") @AuthorizationMetadata(type = Entity.EntityType.CATALOG) String catalog,
       SchemaCreateRequest request) {
+    LOG.info("Received create schema request: {}.{}.{}", metalake, catalog, request.getName());
     try {
       return Utils.doAs(
           httpRequest,
           () -> {
-            if (request == null) {
-              throw new IllegalArgumentException("Request body shouldn't be null");
-            }
-            LOG.info(
-                "Received create schema request: {}.{}.{}", metalake, catalog, request.getName());
             request.validate();
             NameIdentifier ident =
                 NameIdentifierUtil.ofSchema(metalake, catalog, request.getName());
